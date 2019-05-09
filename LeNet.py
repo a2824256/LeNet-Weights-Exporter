@@ -38,4 +38,36 @@ lenet.compile('sgd', loss='categorical_crossentropy', metrics=['accuracy'])
 
 lenet.fit(x_train, y_train, batch_size=64, epochs=1, validation_data=[x_test, y_test])
 weights = lenet.get_weights()
-lenet.save('myletnet.h5')
+# shape 5,5,1,6
+# print(weights[4][4][0][5])
+c = 0
+string = ""
+for num in range(0, 6):
+    for height in range(0, 5):
+        for width in range(0, 5):
+            # c += 1
+            string += str(weights[0][width][height][0][num]) + ","
+for num in range(0, 16):
+    for channel in range(0, 6):
+        for height in range(0, 5):
+            for width in range(0, 5):
+                # c += 1
+                string += str(weights[2][width][height][channel][num]) + ","
+for height in range(0, 120):
+    for width in range(0, 400):
+        c += 1
+        string += str(weights[4][width][height]) + ","
+for height in range(0, 84):
+    for width in range(0, 120):
+        # c += 1
+        string += str(weights[6][width][height]) + ","
+for height in range(0, 10):
+    for width in range(0, 84):
+        # c += 1
+        if c >= 839:
+            string += str(weights[8][width][height])
+        else:
+            string += str(weights[8][width][height]) + ","
+f = open("WEIGHT.TXT", "w")
+f.write(string)
+f.close()
